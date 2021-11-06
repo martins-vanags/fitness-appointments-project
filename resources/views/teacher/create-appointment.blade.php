@@ -33,8 +33,8 @@
                                id="location"
                                readonly
                                placeholder="TODO: Google maps api. Pass lat/lng values">
-                        <input type="hidden" name="lat" value="">
-                        <input type="hidden" name="lng" value="">
+                        <input type="hidden" name="lat" value="1">
+                        <input type="hidden" name="lng" value="2">
                     </div>
                     <div class="mb-3">
                         <label for="number-of-students"
