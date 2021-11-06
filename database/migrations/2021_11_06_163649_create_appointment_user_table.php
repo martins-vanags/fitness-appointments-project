@@ -13,7 +13,7 @@ class CreateAppointmentUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('appointment_user', function (Blueprint $table) {
+        Schema::create('appointment_user', function (Blueprint $table) {
             $table->foreignId('appointment_id')->constrained();
             $table->foreignId('user_id')->constrained();
         });
@@ -26,8 +26,6 @@ class CreateAppointmentUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('appointment_user', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('appointment_user');
     }
 }
