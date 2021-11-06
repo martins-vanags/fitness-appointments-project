@@ -21,7 +21,7 @@ class UserController extends Controller
     public function show($id)
     {
         $userAppointments = User::findOrFail($id)->appointments;
-        
+
         return view('user.appointments', ['appointments' => $userAppointments]);
     }
 
@@ -29,10 +29,10 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
+        if (!isset($validated['require-certificate'])) $validated['require-certificate'] = self::covidNotRequired;
         if ($validated['require-certificate'] === 'on') $validated['require-certificate'] = self::covidRequired;
-        if ($validated['require-certificate'] === 'off') $validated['require-certificate'] = self::covidNotRequired;
 
-        $user = User::find(Auth::user()->id);
+        $user = User::find($validated['id']);
         $user->appointments()->attach(
             Appointment::create([
                 'name' => $validated['name'],
@@ -50,6 +50,6 @@ class UserController extends Controller
         // The link stays the same after return
         // /create
         // How to change ?
-        return $this->show(Auth::user()->id);
+        return $this->show($validated['id']);
     }
 }

@@ -105,6 +105,7 @@
                             {{ __('Require covid-19 certificate') }}
                         </label>
                     </div>
+                    <input type="hidden" name="id" value="{{ Auth::user()->id }}">
                     <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
                 </form>
             </div>

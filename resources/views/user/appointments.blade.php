@@ -21,6 +21,10 @@
                             <th scope="col">{{ __('Covid certificate') }}</th>
                             <th scope="col">{{ __('Price') }}</th>
                             <th scope="col">{{ __('Description') }}</th>
+                            @if(Auth::user()->isTeacher())
+                                <th scope="col">{{ __('Edit') }}</th>
+                                <th scope="col">{{ __('Delete') }}</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -35,6 +39,14 @@
                             @endif
                             <td>{{ $appointment->price }}</td>
                             <td>{{ $appointment->description }}</td>
+                            @if(Auth::user()->isTeacher())
+                                <td>
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
+                            @endif
                         </tr>
                         </tbody>
                     </table>
