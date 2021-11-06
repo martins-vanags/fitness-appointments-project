@@ -12,5 +12,15 @@ class Appointment extends Model
 
     protected $table = 'appointments';
 
-    protected $fillable = ['name', 'latitude', 'longitude', 'student_count', 'start_time', 'end_time', 'certificate_needed', 'price', 'description'];
+    protected $fillable = [
+        'name',
+        'latitude',
+        'longitude',
+        'student_count',
+        'start_time',
+        'end_time',
+        'certificate_needed',
+        'price',
+        'description'
+    ];
 }

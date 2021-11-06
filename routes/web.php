@@ -31,8 +31,8 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::post('/new-appointment', fn() => view('user.create-appointment'))->name('new.appointment');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::post('/my-appointments', [UserController::class, 'show'])->name('my.appointments');
+Route::middleware('auth')->group(function () {
+    Route::post('/{id}/appointments', [UserController::class, 'show'])->name('user.appointments');
 });
 
 

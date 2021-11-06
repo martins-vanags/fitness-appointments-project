@@ -65,13 +65,16 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('my.appointments') }}"
+                                <a class="dropdown-item"
+                                   href="{{ route('user.appointments', ['id' => Auth::user()->id]) }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('student-appointments-form').submit();">
                                     {{ __('My appointments') }}
                                 </a>
-                                <form id="student-appointments-form" action="{{ route('my.appointments') }}"
-                                      method="POST" class="d-none">
+                                <form id="student-appointments-form"
+                                      action="{{ route('user.appointments', ['id' => Auth::user()->id]) }}"
+                                      method="POST"
+                                      class="d-none">
                                     @csrf
                                 </form>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
