@@ -43,5 +43,6 @@ class TeacherController extends Controller
             'certificate_needed' => $validated['require-certificate']
         ]);
 
+        return view('teacher.my-appointments');
     }
 }
