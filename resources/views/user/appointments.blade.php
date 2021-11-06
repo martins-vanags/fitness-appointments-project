@@ -2,10 +2,12 @@
 
 @section('content')
     <div class="container">
-        <form method="POST" action="{{ route('create.appointment') }}">
-            @csrf
-            <button type="submit" class="btn btn-primary">{{ __('New appointment') }}</button>
-        </form>
+        @if(Auth::user()->isTeacher())
+            <form method="POST" action="{{ route('new.appointment') }}">
+                @csrf
+                <button type="submit" class="btn btn-primary">{{ __('New appointment') }}</button>
+            </form>
+        @endif
         <div class="card mt-2">
             <div class="card-header">{{ __('My appointments') }}</div>
 

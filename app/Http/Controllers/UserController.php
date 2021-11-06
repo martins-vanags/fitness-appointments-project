@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\CreateAppointmentRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 
-class TeacherController extends Controller
+class UserController extends Controller
 {
     const covid_required = 1;
     const covid_not_required = 0;
@@ -17,12 +16,9 @@ class TeacherController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show teacher appointments
-     */
     public function show()
     {
-        return view('teacher.my-appointments');
+        return view('user.appointments');
     }
 
     public function create(CreateAppointmentRequest $request)
@@ -43,6 +39,6 @@ class TeacherController extends Controller
             'certificate_needed' => $validated['require-certificate']
         ]);
 
-        return view('teacher.my-appointments');
+        return view('user.appointments');
     }
 }

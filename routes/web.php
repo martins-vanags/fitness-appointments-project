@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FrontPageController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,24 +19,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [AppointmentController::class, 'show'])->name('all.appointments');
+Route::get('/', [FrontPageController::class, 'index'])->name('all.appointments');
 
 Auth::routes();
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
-    // Show create form
-    Route::post('/create-appointment', [AppointmentController::class, 'create'])->name('create.appointment');
-    // Show table with edit / delete options
-    Route::post('/edit-appointments', [TeacherController::class, 'show'])->name('edit.appointments');
-    // Create new appointment
-    Route::post('/create', [TeacherController::class, 'create'])->name('create');
+    Route::post('/create', [UserController::class, 'create'])->name('create');
+    Route::post('/update', [UserController::class, 'update'])->name('update');
+    Route::delete('/delete', [UserController::class, 'delete'])->name('delete');
+
+    Route::post('/new-appointment', fn() => view('user.create-appointment'))->name('new.appointment');
 });
 
-
-// TODO: Probably doesnt work will fix it later
-Route::middleware(['auth', 'role:student'])->group(function () {
-    // Show student booked appointments
-    Route::post('/my-appointments', [StudentController::class, 'show'])->name('student.appointments');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/my-appointments', [UserController::class, 'show'])->name('my.appointments');
 });
 
 

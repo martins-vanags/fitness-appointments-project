@@ -26,8 +26,12 @@
             <a class="navbar-brand" href="{{ route('all.appointments') }}">
                 {{ config('app.name', 'Laravel') }}
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false"
+            <button class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -61,30 +65,15 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                @if(Auth::user()->isStudent())
-                                    <a class="dropdown-item" href="{{ route('student.appointments') }}"
-                                       onclick="event.preventDefault();
+                                <a class="dropdown-item" href="{{ route('my.appointments') }}"
+                                   onclick="event.preventDefault();
                                                      document.getElementById('student-appointments-form').submit();">
-                                        {{ __('My appointments') }}
-                                    </a>
-                                    <form id="student-appointments-form" action="{{ route('student.appointments') }}"
-                                          method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                @endif
-
-                                @if(Auth::user()->isTeacher())
-                                    <a class="dropdown-item" href="{{ route('edit.appointments') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('teacher-appointments-form').submit();">
-                                        {{ __('My appointments') }}
-                                    </a>
-                                    <form id="teacher-appointments-form" action="{{ route('edit.appointments') }}"
-                                          method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                @endif
-
+                                    {{ __('My appointments') }}
+                                </a>
+                                <form id="student-appointments-form" action="{{ route('my.appointments') }}"
+                                      method="POST" class="d-none">
+                                    @csrf
+                                </form>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="container text-center">
-        {{--If user guest then limit to 5. --}}
-        {{ __('All Appointments') }}
+        @for($i = 0; $i < 15; $i++)
+            {{ __('Appointment ') }} {{ $i }}  <br>
+        @endfor
     </div>
 @endsection
