@@ -66,6 +66,18 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item"
+                                   href="{{ route('user.profile', ['id' => Auth::user()->id]) }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('my-profile-form').submit();">
+                                    {{ __('My profile') }}
+                                </a>
+                                <form id="my-profile-form"
+                                      action="{{ route('user.profile', ['id' => Auth::user()->id]) }}"
+                                      method="POST"
+                                      class="d-none">
+                                    @csrf
+                                </form>
+                                <a class="dropdown-item"
                                    href="{{ route('user.appointments', ['id' => Auth::user()->id]) }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('student-appointments-form').submit();">

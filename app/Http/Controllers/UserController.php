@@ -52,4 +52,11 @@ class UserController extends Controller
         // How to change ?
         return $this->show($validated['id']);
     }
+
+    public function profile($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('user.profile', ['user' => $user]);
+    }
 }

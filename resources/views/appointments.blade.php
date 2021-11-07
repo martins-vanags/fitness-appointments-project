@@ -15,6 +15,7 @@
                             <th scope="col">{{ __('Covid certificate') }}</th>
                             <th scope="col">{{ __('Price') }}</th>
                             <th scope="col">{{ __('Description') }}</th>
+                            <th scope="col">{{ __('Appointment') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -29,6 +30,9 @@
                             @endif
                             <td>{{ $appointment->price }}</td>
                             <td>{{ $appointment->description }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary">{{ __('Book') }}</button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
