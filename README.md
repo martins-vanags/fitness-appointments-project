@@ -4,5 +4,14 @@ Simplify the way to get in touch with fitness teachers.
 
 ## TODO:
 
-* Add google maps api with select option
-* Add google maps api to display location based on lat & lng
+* APPOINTMENTS
+* Ability to add google maps location when creating new appointment
+* Ability to see location when viewing appointments (modal window ? )
+* Ability to press on appointment to see more details
+* Ability to book an appointment based on available students
+
+
+* PROFILE
+* Ability to update profile information
+* Ability to see other users profile page
+* Ability to add profile picture ?
