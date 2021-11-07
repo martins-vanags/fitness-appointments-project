@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateAppointmentRequest;
 use App\Models\Appointment;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,32 +26,17 @@ class UserController extends Controller
         return view('user.appointments', ['appointments' => $userAppointments]);
     }
 
-    public function create(CreateAppointmentRequest $request)
+    public function create(CreateAppointmentRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        if (!isset($validated['require-certificate'])) $validated['require-certificate'] = self::covidNotRequired;
-        if ($validated['require-certificate'] === 'on') $validated['require-certificate'] = self::covidRequired;
+        if (!isset($validated['certificate_needed'])) $validated['certificate_needed'] = self::covidNotRequired;
+        if ($validated['certificate_needed'] === 'on') $validated['certificate_needed'] = self::covidRequired;
 
         $user = User::find($validated['id']);
-        $user->appointments()->attach(
-            Appointment::create([
-                'name' => $validated['name'],
-                'latitude' => $validated['lat'],
-                'longitude' => $validated['lng'],
-                'student_count' => $validated['number-of-students'],
-                'start_time' => $validated['start-time'],
-                'end_time' => $validated['end-time'],
-                'price' => $validated['price'],
-                'certificate_needed' => $validated['require-certificate']
-            ])
-        );
+        $user->appointments()->attach(Appointment::create($validated));
 
-        // TODO:
-        // The link stays the same after return
-        // /create
-        // How to change ?
-        return $this->show($validated['id']);
+        return redirect()->route('user.appointments', ['id' => $validated['id']]);
     }
 
     public function profile($id)

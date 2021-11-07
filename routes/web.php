@@ -32,8 +32,8 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('/{id}/appointments', [UserController::class, 'show'])->name('user.appointments');
-    Route::post('/{id}/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/{id}/appointments', [UserController::class, 'show'])->name('user.appointments');
+    Route::get('/{id}/profile', [UserController::class, 'profile'])->name('user.profile');
 });
 
 

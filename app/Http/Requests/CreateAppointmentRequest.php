@@ -25,13 +25,14 @@ class CreateAppointmentRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'lat' => ['required'],
-            'lng' => ['required'],
-            'number-of-students' => ['required'],
-            'start-time' => ['required'],
-            'end-time' => ['required'],
+            'latitude' => ['required'],
+            'longitude' => ['required'],
+            'student_count' => ['required'],
+            'start_time' => ['required'],
+            'end_time' => ['required'],
             'price' => ['required'],
-            'require-certificate' => [],
+            'certificate_needed' => [],
+            'description' => [],
             'id' => ['required']
         ];
     }

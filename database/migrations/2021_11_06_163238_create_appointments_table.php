@@ -16,9 +16,10 @@ class CreateAppointmentsTable extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('latitude');
-            $table->integer('longitude');
+            $table->decimal('latitude', 8, 5);
+            $table->decimal('longitude', 8, 5);
             $table->integer('student_count');
+            $table->integer('students_applied')->default(0);
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->boolean('certificate_needed');

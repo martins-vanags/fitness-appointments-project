@@ -5,12 +5,7 @@
         <div class="card mt-2">
             <div class="card-header">{{ __('New appointment') }}</div>
             <div class="card-body">
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                <form method="POST" action="{{ route('create') }}">
+                <form action="{{ route('create') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="name"
@@ -33,8 +28,8 @@
                                id="location"
                                readonly
                                placeholder="TODO: Google maps api. Pass lat/lng values">
-                        <input type="hidden" name="lat" value="1">
-                        <input type="hidden" name="lng" value="2">
+                        <input type="hidden" name="latitude" value="1">
+                        <input type="hidden" name="longitude" value="2">
                     </div>
                     <div class="mb-3">
                         <label for="number-of-students"
@@ -44,7 +39,7 @@
                         <input type="number"
                                class="form-control"
                                id="number-of-students"
-                               name="number-of-students"
+                               name="student_count"
                                min="0"
                                max="999"
                                required>
@@ -57,7 +52,7 @@
                         <input type="datetime-local"
                                class="form-control"
                                id="appointment-start-time"
-                               name="start-time"
+                               name="start_time"
                                required>
                     </div>
                     <div class="mb-3">
@@ -68,7 +63,7 @@
                         <input type="datetime-local"
                                class="form-control"
                                id="appointment-end-time"
-                               name="end-time"
+                               name="end_time"
                                required>
                     </div>
                     <div class="mb-3">
@@ -98,10 +93,10 @@
                     <div class="mb-3 form-check">
                         <input type="checkbox"
                                class="form-check-input"
-                               id="require-certificate"
-                               name="require-certificate">
+                               id="certificate_needed"
+                               name="certificate_needed">
                         <label class="form-check-label"
-                               for="require-certificate">
+                               for="certificate_needed">
                             {{ __('Require covid-19 certificate') }}
                         </label>
                     </div>

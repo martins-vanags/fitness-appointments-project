@@ -61,7 +61,7 @@
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->name }}  {{ Auth::user()->surname }}
+                                {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -73,9 +73,8 @@
                                 </a>
                                 <form id="my-profile-form"
                                       action="{{ route('user.profile', ['id' => Auth::user()->id]) }}"
-                                      method="POST"
+                                      method="GET"
                                       class="d-none">
-                                    @csrf
                                 </form>
                                 <a class="dropdown-item"
                                    href="{{ route('user.appointments', ['id' => Auth::user()->id]) }}"
@@ -85,9 +84,8 @@
                                 </a>
                                 <form id="student-appointments-form"
                                       action="{{ route('user.appointments', ['id' => Auth::user()->id]) }}"
-                                      method="POST"
+                                      method="GET"
                                       class="d-none">
-                                    @csrf
                                 </form>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
@@ -109,5 +107,7 @@
         @yield('content')
     </main>
 </div>
+
+@yield('scripts')
 </body>
 </html>
