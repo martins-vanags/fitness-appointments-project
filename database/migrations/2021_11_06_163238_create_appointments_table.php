@@ -25,6 +25,7 @@ class CreateAppointmentsTable extends Migration
             $table->decimal('price', 15)->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -16,6 +16,7 @@ class CreateAppointmentUserTable extends Migration
         Schema::create('appointment_user', function (Blueprint $table) {
             $table->foreignId('appointment_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->softDeletes();
         });
     }
 
