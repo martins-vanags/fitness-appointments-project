@@ -31,9 +31,8 @@ class CreateAppointmentRequest extends FormRequest
             'start_time' => ['required'],
             'end_time' => ['required'],
             'price' => ['required'],
-            'certificate_needed' => [],
-            'description' => [],
-            'id' => ['required']
+            'certificate_needed' => ['sometimes'],
+            'description' => ['required'],
         ];
     }
 }

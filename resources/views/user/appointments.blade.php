@@ -3,8 +3,7 @@
 @section('content')
     <div class="container">
         @if(Auth::user()->isTeacher())
-            <form method="POST" action="{{ route('new.appointment') }}">
-                @csrf
+            <form method="GET" action="{{ route('new.appointment') }}">
                 <button type="submit" class="btn btn-primary">{{ __('New appointment') }}</button>
             </form>
         @endif
@@ -15,7 +14,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">{{ __('Maximum students') }}</th>
+                            <th scope="col">{{ __('Students applied') }}</th>
                             <th scope="col">{{ __('Start date') }}</th>
                             <th scope="col">{{ __('End date') }}</th>
                             <th scope="col">{{ __('Covid certificate') }}</th>
@@ -41,10 +40,17 @@
                             <td>{{ $appointment->description }}</td>
                             @if(Auth::user()->isTeacher())
                                 <td>
-                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <form method="GET" action="{{ route('edit', ['id' => $appointment->id]) }}">
+                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                    </form>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
+                                    <form method="POST" action="{{ route('destroy') }}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $appointment->id }}">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
                                 </td>
                             @endif
                         </tr>

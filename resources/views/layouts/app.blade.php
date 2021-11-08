@@ -77,13 +77,13 @@
                                       class="d-none">
                                 </form>
                                 <a class="dropdown-item"
-                                   href="{{ route('user.appointments', ['id' => Auth::user()->id]) }}"
+                                   href="{{ route('user.appointments') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('student-appointments-form').submit();">
                                     {{ __('My appointments') }}
                                 </a>
                                 <form id="student-appointments-form"
-                                      action="{{ route('user.appointments', ['id' => Auth::user()->id]) }}"
+                                      action="{{ route('user.appointments') }}"
                                       method="GET"
                                       class="d-none">
                                 </form>

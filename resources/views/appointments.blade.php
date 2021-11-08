@@ -3,7 +3,7 @@
 @section('content')
     @forelse ($appointments as $appointment)
         <div class="container">
-            <div class="card mt-2 mb-1">
+            <div class="card mt-2">
                 <div class="card-header">{{ $appointment->name }}</div>
                 <div class="card-body">
                     <table class="table">

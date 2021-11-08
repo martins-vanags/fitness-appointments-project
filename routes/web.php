@@ -21,18 +21,22 @@ Route::get('/', [FrontPageController::class, 'index'])->name('all.appointments')
 
 Auth::routes();
 
-Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::post('/create', [AppointmentController::class, 'create'])->name('create');
-    Route::post('/update', [AppointmentController::class, 'update'])->name('update');
-    Route::delete('/delete', [AppointmentController::class, 'delete'])->name('delete');
+Route::middleware('auth')->group(function () {
+    Route::get('/{id}/profile', [UserController::class, 'profile'])->name('user.profile');
 
-    Route::post('/new-appointment', fn() => view('user.create-appointment'))->name('new.appointment');
+    Route::get('/my-appointments', [UserController::class, 'show'])->name('user.appointments');
+
+    Route::post('/update-profile', [UserController::class, 'update'])->name('update.profile');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/{id}/appointments', [UserController::class, 'show'])->name('user.appointments');
-    Route::get('/{id}/profile', [UserController::class, 'profile'])->name('user.profile');
-    Route::post('/update/profile', [UserController::class, 'update'])->name('update.profile');
+Route::middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/edit/{id}', [AppointmentController::class, 'edit'])->name('edit');
+    Route::post('/update', [AppointmentController::class, 'update'])->name('update');
+
+    Route::get('/create', [AppointmentController::class, 'create'])->name('new.appointment');
+    Route::post('/store', [AppointmentController::class, 'store'])->name('store');
+
+    Route::delete('/delete', [AppointmentController::class, 'destroy'])->name('destroy');
 });
 
 

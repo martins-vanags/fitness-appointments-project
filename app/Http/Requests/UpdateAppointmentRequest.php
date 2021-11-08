@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdateAppointmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,15 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'gender' => ['required'],
-            'age' => ['sometimes'],
-            'description' => ['sometimes', 'string']
+            'latitude' => ['required'],
+            'longitude' => ['required'],
+            'student_count' => ['required'],
+            'start_time' => ['required'],
+            'end_time' => ['required'],
+            'price' => ['required'],
+            'certificate_needed' => ['sometimes'],
+            'description' => ['required'],
+            'id' => ['required']
         ];
     }
 }

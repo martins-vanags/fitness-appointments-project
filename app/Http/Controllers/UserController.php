@@ -14,10 +14,10 @@ class UserController extends Controller
     {
         $this->middleware('auth');
     }
-    
-    public function show($id)
+
+    public function show()
     {
-        $userAppointments = User::findOrFail($id)->appointments;
+        $userAppointments = User::findOrFail(Auth::user()->id)->appointments;
 
         return view('user.appointments', ['appointments' => $userAppointments]);
     }

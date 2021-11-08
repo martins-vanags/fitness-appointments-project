@@ -83,7 +83,7 @@
                                 </div>
                             </div>
 
-                            @if (Auth()->user()->id == request('id'))
+                            @if (Auth()->user()->id = request('id'))
                                 <div class="form-group row">
                                     <label for="description"
                                            class="col-md-4 col-form-label text-md-right">
