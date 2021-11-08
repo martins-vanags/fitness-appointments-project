@@ -22,7 +22,7 @@ class UserController extends Controller
         return view('user.appointments', ['appointments' => $userAppointments]);
     }
 
-    public function profile($id)
+    public function edit($id)
     {
         $user = User::findOrFail($id);
 

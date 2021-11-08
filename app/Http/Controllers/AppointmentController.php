@@ -22,6 +22,17 @@ class AppointmentController extends Controller
         return view('user.create-appointment');
     }
 
+    public function show($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        $latLng = [
+            'lat' => floatval($appointment->latitude),
+            'lng' => floatval($appointment->longitude)
+        ];
+
+        return view('appointment', ['appointment' => $appointment, 'latLng' => $latLng]);
+    }
+
     public function edit($id)
     {
         $appointment = User::findOrFail(Auth::user()->id)->appointments()->findOrFail($id);

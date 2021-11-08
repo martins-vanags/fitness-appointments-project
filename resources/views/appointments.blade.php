@@ -19,7 +19,7 @@
                             <td>{{ $appointment->latitude }} {{ $appointment->longitude }} {{ __('Will reverse geo code this to display Location name') }}</td>
                             <td>{{ $appointment->price }}</td>
                             <td>
-                                <form>
+                                <form method="GET" action="{{ route('show', ['id' => $appointment->id]) }}">
                                     <button type="submit" class="btn btn-primary">{{ __('More information') }}</button>
                                 </form>
                             </td>
@@ -28,14 +28,16 @@
                     </table>
                 </div>
             </div>
-            @empty
-                <div class="card mt-2">
-                    <div class="card-header">{{ __('No appointments') }}</div>
-                    <div class="card-body">
-                        {{ __('If someone creates an appointment it will be displayed here') }}
-                    </div>
-                </div>
-            @endforelse
-            {{ $appointments->links() }}
         </div>
+    @empty
+        <div class="card mt-2">
+            <div class="card-header">{{ __('No appointments') }}</div>
+            <div class="card-body">
+                {{ __('If someone creates an appointment it will be displayed here') }}
+            </div>
+        </div>
+    @endforelse
+    <div class="container mt-2">
+        {{ $appointments->links() }}
+    </div>
 @endsection

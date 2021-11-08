@@ -22,11 +22,12 @@ Route::get('/', [FrontPageController::class, 'index'])->name('all.appointments')
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
-    Route::get('/{id}/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/{id}/profile', [UserController::class, 'edit'])->name('user.profile');
+    Route::post('/update-profile', [UserController::class, 'update'])->name('update.profile');
 
     Route::get('/my-appointments', [UserController::class, 'show'])->name('user.appointments');
 
-    Route::post('/update-profile', [UserController::class, 'update'])->name('update.profile');
+    Route::get('/{id}/appointment', [AppointmentController::class, 'show'])->name('show');
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
