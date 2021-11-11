@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        #map {
+            height: 200px;
+        }
+    </style>
     <div class="container">
         <div class="card mt-2">
             <div class="card-header">{{ __('New appointment') }}</div>
@@ -23,13 +28,14 @@
                                class="form-label">
                             {{ __('Location') }}
                         </label>
-                        <input type="text"
-                               class="form-control"
-                               id="location"
-                               readonly
-                               placeholder="TODO: Google maps api. Pass lat/lng values">
-                        <input type="hidden" name="latitude" value="1">
-                        <input type="hidden" name="longitude" value="2">
+                        <input id="pac-input"
+                               class="controls"
+                               type="text"
+                               placeholder="Search Box"
+                               name="location">
+                        <div id="map"></div>
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
                     </div>
                     <div class="mb-3">
                         <label for="number-of-students"
@@ -106,3 +112,89 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+    <script>
+        function initAutocomplete() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: {lat: 56.94629, lng: 24.10508},
+                zoom: 10,
+                mapTypeId: "roadmap",
+            });
+            // Create the search box and link it to the UI element.
+            const input = document.getElementById("pac-input");
+            const searchBox = new google.maps.places.SearchBox(input);
+
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            // Bias the SearchBox results towards current map's viewport.
+            map.addListener("bounds_changed", () => {
+                searchBox.setBounds(map.getBounds());
+                middlePoint = map.getCenter();
+                document.getElementById('latitude').value = middlePoint.lat();
+                document.getElementById('longitude').value = middlePoint.lng();
+
+
+                console.log(middlePoint.lat(), middlePoint.lng())
+            });
+
+            let markers = [];
+
+            // Listen for the event fired when the user selects a prediction and retrieve
+            // more details for that place.
+            searchBox.addListener("places_changed", () => {
+                const places = searchBox.getPlaces();
+
+                if (places.length === 0) {
+                    return;
+                }
+
+                // Clear out the old markers.
+                markers.forEach((marker) => {
+                    marker.setMap(null);
+                });
+                markers = [];
+
+                // For each place, get the icon, name and location.
+                const bounds = new google.maps.LatLngBounds();
+
+                places.forEach((place) => {
+                    if (!place.geometry || !place.geometry.location) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+
+                    const icon = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25),
+                    };
+
+                    // Create a marker for each place.
+                    markers.push(
+                        new google.maps.Marker({
+                            map,
+                            icon,
+                            title: place.name,
+                            position: place.geometry.location,
+                        })
+                    );
+                    if (place.geometry.viewport) {
+                        // Only geocodes have viewport.
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                });
+                map.fitBounds(bounds);
+            });
+        }
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb8QAZaP5cQhU8jp6LRbj9tx80L95ezGM&callback=initAutocomplete&libraries=places&v=weekly&channel=2"
+        async>
+    </script>
+@endsection
+
+
