@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/booked-appointments', [UserController::class, 'booked'])->name('user.booked.appointments');
 
     Route::get('/{id}/appointment', [AppointmentController::class, 'show'])->name('show');
+
+    Route::post('/book', [AppointmentController::class, 'book'])->name('book');
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
@@ -38,8 +40,6 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
 
     Route::get('/create', [AppointmentController::class, 'create'])->name('new.appointment');
     Route::post('/store', [AppointmentController::class, 'store'])->name('store');
-
-    Route::post('/book', [AppointmentController::class, 'book'])->name('book');
 
     Route::delete('/delete', [AppointmentController::class, 'destroy'])->name('destroy');
 });

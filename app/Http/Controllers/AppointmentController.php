@@ -32,7 +32,12 @@ class AppointmentController extends Controller
             'lng' => floatval($appointment->longitude)
         ];
 
-        return view('appointment', ['appointment' => $appointment, 'latLng' => $latLng]);
+        $alreadyBooked = DB::table('appointment_user')
+            ->where('user_id', '=', Auth::id())
+            ->where('appointment_id', '=', $id)
+            ->get();
+
+        return view('appointment', ['appointment' => $appointment, 'latLng' => $latLng, 'alreadyBooked' => $alreadyBooked]);
     }
 
     public function edit($id)
@@ -97,7 +102,7 @@ class AppointmentController extends Controller
         return redirect()->route('user.appointments');
     }
 
-    public function book(BookAppointmentRequest $request)
+    public function book(BookAppointmentRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 

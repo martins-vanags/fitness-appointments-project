@@ -64,7 +64,10 @@
                 <form method="POST" action="{{ route('book') }}">
                     @csrf
                     <input type="hidden" name="id" value="{{ $appointment->id }}">
-                    <button class="w-100 btn btn-primary btn-lg" type="submit">{{ __('Continue to checkout') }}</button>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit"
+                            @if($alreadyBooked->isNotEmpty()) disabled @endif>
+                        {{ __('Continue to checkout') }}
+                    </button>
                 </form>
             </div>
         </div>

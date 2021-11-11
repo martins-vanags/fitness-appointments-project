@@ -14,7 +14,7 @@ class CreateAppointmentUserTable extends Migration
     public function up()
     {
         Schema::create('appointment_user', function (Blueprint $table) {
-            $table->foreignId('appointment_id')->unique()->constrained();
+            $table->foreignId('appointment_id')->constrained();
             $table->foreignId('user_id')->constrained();
         });
     }
