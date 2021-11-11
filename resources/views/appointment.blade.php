@@ -59,65 +59,25 @@
                     <label class="form-check-label" for="certificate_needed">{{ __('Covid certificate') }}</label>
                 </div>
 
-
                 <hr class="my-4">
 
-                <h4 class="mb-3">{{ __('Payment') }}</h4>
-
-                <div class="my-3">
-                    <div class="form-check">
-                        <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked>
-                        <label class="form-check-label" for="credit">{{ __('Credit card') }}</label>
-                    </div>
-                    <div class="form-check">
-                        <input id="debit" name="paymentMethod" type="radio" class="form-check-input">
-                        <label class="form-check-label" for="debit">{{ __('Debit card') }}</label>
-                    </div>
-                    <div class="form-check">
-                        <input id="paypal" name="paymentMethod" type="radio" class="form-check-input">
-                        <label class="form-check-label" for="paypal">{{ __('PayPal') }}</label>
-                    </div>
-                </div>
-
-                <div class="row gy-3">
-                    <div class="col-md-6">
-                        <label for="cc-name" class="form-label">{{ __('Name on card') }}</label>
-                        <input type="text" class="form-control" id="cc-name" placeholder="">
-                        <small class="text-muted">{{ __('Full name as displayed on card') }}</small>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="cc-number" class="form-label">{{ __('Credit card number') }}</label>
-                        <input type="text" class="form-control" id="cc-number" placeholder="">
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="cc-expiration" class="form-label">{{ __('Expiration') }}</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="">
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="cc-cvv" class="form-label">{{ __('CVV') }}</label>
-                        <input type="text" class="form-control" id="cc-cvv" placeholder="">
-                    </div>
-                </div>
-
-                <hr class="my-4">
-
-                <button class="w-100 btn btn-primary btn-lg" type="submit">{{ __('Continue to checkout') }}</button>
+                <form method="POST" action="{{ route('book') }}">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $appointment->id }}">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">{{ __('Continue to checkout') }}</button>
+                </form>
             </div>
         </div>
     </div>
 @endsection
 
-
 @section('scripts')
     <script>
         function initMap() {
             const marker = @json($latLng)
-            
+
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 10,
+                zoom: 14,
                 center: marker,
             });
 

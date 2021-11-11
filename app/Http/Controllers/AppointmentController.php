@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookAppointmentRequest;
 use App\Http\Requests\CreateAppointmentRequest;
 use App\Http\Requests\DeleteAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
@@ -35,13 +37,17 @@ class AppointmentController extends Controller
 
     public function edit($id)
     {
-        $appointment = User::findOrFail(Auth::user()->id)->appointments()->findOrFail($id);
+        if (!Auth::user()->isTeacher()) abort(403);
 
-        return view('user.edit-appointment', ['appointment' => $appointment]);
+        $appointments = Appointment::where('user_id', '=', $id)->get();
+
+        return view('user.edit-appointment', compact('appointments'));
     }
 
     public function update(UpdateAppointmentRequest $request): RedirectResponse
     {
+        if (!Auth::user()->isTeacher()) abort(403);
+
         $validated = $request->validated();
 
         isset($validated['certificate_needed'])
@@ -51,10 +57,7 @@ class AppointmentController extends Controller
         $validated['start_time'] = Carbon::parse($validated['start_time'])->format('Y-m-d H:m:s');
         $validated['end_time'] = Carbon::parse($validated['start_time'])->format('Y-m-d H:m:s');
 
-        $appointment = User::findOrFail(Auth::user()->id)
-            ->appointments()
-            ->find($validated['id']);
-
+        $appointment = Appointment::findOrFail($validated['id']);
         $appointment->name = $validated['name'];
         $appointment->latitude = $validated['latitude'];
         $appointment->longitude = $validated['longitude'];
@@ -73,24 +76,36 @@ class AppointmentController extends Controller
     {
         $validated = $request->validated();
 
+        $validated['user_id'] = Auth::id();
+
         isset($validated['certificate_needed'])
             ? $validated['certificate_needed'] = self::covidRequired
             : $validated['certificate_needed'] = self::covidNotRequired;
 
-        $user = User::findOrFail(Auth::user()->id);
-        $user->appointments()->attach(Appointment::create($validated));
+        Appointment::create($validated);
 
-        return redirect()->route('user.appointments', ['id' => Auth::user()->id]);
+        return redirect()->route('user.appointments');
     }
 
     public function destroy(DeleteAppointmentRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        $user = User::findOrFail(Auth()->user()->id);
-        $user->appointments()->detach(Appointment::findorFail($validated['id']));
         Appointment::findOrFail($validated['id'])->delete();
+        DB::table('appointment_user')->where('appointment_id', '=', $validated['id'])->delete();
 
-        return redirect()->route('user.appointments', ['id' => Auth::user()->id]);
+        return redirect()->route('user.appointments');
+    }
+
+    public function book(BookAppointmentRequest $request)
+    {
+        $validated = $request->validated();
+
+        Db::table('appointment_user')->insert([
+            'appointment_id' => $validated['id'],
+            'user_id' => Auth::id()
+        ]);
+
+        return back();
     }
 }

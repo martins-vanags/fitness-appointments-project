@@ -59,7 +59,6 @@ class User extends Authenticatable
         return $this->role === 'student';
     }
 
-
     public function appointments(): BelongsToMany
     {
         return $this->belongsToMany(Appointment::class);

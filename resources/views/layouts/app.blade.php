@@ -76,17 +76,34 @@
                                       method="GET"
                                       class="d-none">
                                 </form>
-                                <a class="dropdown-item"
-                                   href="{{ route('user.appointments') }}"
-                                   onclick="event.preventDefault();
+
+                                @if(Auth::user()->isTeacher())
+                                    <a class="dropdown-item"
+                                       href="{{ route('user.appointments') }}"
+                                       onclick="event.preventDefault();
                                                      document.getElementById('student-appointments-form').submit();">
-                                    {{ __('My appointments') }}
+                                        {{ __('My appointments') }}
+                                    </a>
+                                    <form id="student-appointments-form"
+                                          action="{{ route('user.appointments') }}"
+                                          method="GET"
+                                          class="d-none">
+                                    </form>
+                                @endif
+
+                                <a class="dropdown-item"
+                                   href="{{ route('user.booked.appointments') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('booked-appointments').submit();">
+                                    {{ __('Booked appointments') }}
                                 </a>
-                                <form id="student-appointments-form"
-                                      action="{{ route('user.appointments') }}"
-                                      method="GET"
+                                <form id="booked-appointments"
+                                      action="{{ route('user.booked.appointments') }}"
+                                      method="POST"
                                       class="d-none">
+                                    @csrf
                                 </form>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

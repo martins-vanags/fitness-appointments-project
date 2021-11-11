@@ -14,6 +14,7 @@ class Appointment extends Model
     protected $table = 'appointments';
 
     protected $fillable = [
+        'user_id',
         'name',
         'latitude',
         'longitude',

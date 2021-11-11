@@ -25,17 +25,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/{id}/profile', [UserController::class, 'edit'])->name('user.profile');
     Route::post('/update-profile', [UserController::class, 'update'])->name('update.profile');
 
-    Route::get('/my-appointments', [UserController::class, 'show'])->name('user.appointments');
+    Route::post('/booked-appointments', [UserController::class, 'booked'])->name('user.booked.appointments');
 
     Route::get('/{id}/appointment', [AppointmentController::class, 'show'])->name('show');
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/edit/{id}', [AppointmentController::class, 'edit'])->name('edit');
+    Route::get('/my-appointments', [UserController::class, 'show'])->name('user.appointments');
+
+    Route::get('/{id}/edit', [AppointmentController::class, 'edit'])->name('edit');
     Route::post('/update', [AppointmentController::class, 'update'])->name('update');
 
     Route::get('/create', [AppointmentController::class, 'create'])->name('new.appointment');
     Route::post('/store', [AppointmentController::class, 'store'])->name('store');
+
+    Route::post('/book', [AppointmentController::class, 'book'])->name('book');
 
     Route::delete('/delete', [AppointmentController::class, 'destroy'])->name('destroy');
 });
