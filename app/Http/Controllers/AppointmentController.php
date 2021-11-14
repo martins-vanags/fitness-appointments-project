@@ -10,14 +10,13 @@ use App\Models\Appointment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
-    const covidRequired = 1;
-    const covidNotRequired = 0;
+    const COVID_REQUIRED = 1;
+    const COVID_NOT_REQUIRED = 0;
 
     public function create()
     {
@@ -32,12 +31,14 @@ class AppointmentController extends Controller
             'lng' => floatval($appointment->longitude)
         ];
 
+        $teacher = User::findOrFail($appointment->user_id);
+
         $alreadyBooked = DB::table('appointment_user')
             ->where('user_id', '=', Auth::id())
             ->where('appointment_id', '=', $id)
             ->get();
 
-        return view('appointment', ['appointment' => $appointment, 'latLng' => $latLng, 'alreadyBooked' => $alreadyBooked]);
+        return view('appointment', compact('appointment', 'latLng', 'alreadyBooked', 'teacher'));
     }
 
     public function edit($id)
@@ -56,8 +57,8 @@ class AppointmentController extends Controller
         $validated = $request->validated();
 
         isset($validated['certificate_needed'])
-            ? $validated['certificate_needed'] = self::covidRequired
-            : $validated['certificate_needed'] = self::covidNotRequired;
+            ? $validated['certificate_needed'] = self::COVID_REQUIRED
+            : $validated['certificate_needed'] = self::COVID_NOT_REQUIRED;
 
         $validated['start_time'] = Carbon::parse($validated['start_time'])->format('Y-m-d H:m:s');
         $validated['end_time'] = Carbon::parse($validated['start_time'])->format('Y-m-d H:m:s');
@@ -84,8 +85,8 @@ class AppointmentController extends Controller
         $validated['user_id'] = Auth::id();
 
         isset($validated['certificate_needed'])
-            ? $validated['certificate_needed'] = self::covidRequired
-            : $validated['certificate_needed'] = self::covidNotRequired;
+            ? $validated['certificate_needed'] = self::COVID_REQUIRED
+            : $validated['certificate_needed'] = self::COVID_NOT_REQUIRED;
 
         Appointment::create($validated);
 

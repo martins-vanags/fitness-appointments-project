@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/{id}/profile', [UserController::class, 'edit'])->name('user.profile');
     Route::post('/update-profile', [UserController::class, 'update'])->name('update.profile');
 
-    Route::post('/booked-appointments', [UserController::class, 'booked'])->name('user.booked.appointments');
+    Route::get('/booked-appointments', [UserController::class, 'booked'])->name('user.booked.appointments');
 
     Route::get('/{id}/appointment', [AppointmentController::class, 'show'])->name('show');
 

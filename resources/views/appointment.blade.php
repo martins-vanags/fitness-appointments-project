@@ -1,77 +1,66 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-        #map {
-            height: 200px;
-            width: 300px;
-        }
-    </style>
-    <div class="container">
-        <div class="row g-5">
-            <div class="col-md-5 col-lg-4 order-md-last">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">{{ __('Location') }}</span>
-                </h4>
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <div id="map"></div>
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="row gx-5">
+                <div class="col-lg-3">
+                    <div class="d-flex align-items-center mt-lg-5 mb-4">
+                        <div class="ms-3">
+                            <div class="fw-bold">{{ __('Appointment teacher') }}</div>
+                            <div class="text-muted">{{ $teacher->name }} {{ $teacher->surname }}</div>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-7 col-lg-8">
-                <div class="row g-3">
-                    <div class="col-sm-6">
-                        <label for="name" class="form-label">{{ __('Name') }}</label>
-                        <input type="text" class="form-control" id="name" placeholder=""
-                               value="{{ $appointment->name }}" readonly>
                     </div>
-
-                    <div class="col-sm-6">
-                        <label for="price" class="form-label">{{ __('Price') }}</label>
-                        <input type="number" class="form-control" id="price" placeholder=""
-                               value="{{ $appointment->price }}" readonly>
+                    <div class="d-flex align-items-center mt-lg-5 mb-4">
+                        <div class="ms-3">
+                            <div class="fw-bold">{{ __('Price in euros') }}</div>
+                            <div class="text-muted">{{ $appointment->price }} €</div>
+                        </div>
                     </div>
-
-                    <div class="col-sm-6">
-                        <label for="start_time" class="form-label">{{ __('Start time') }}</label>
-                        <input type="text" class="form-control" id="start_time" placeholder=""
-                               value="{{ $appointment->start_time }}" readonly>
+                    <div class="d-flex align-items-center mt-lg-5 mb-4">
+                        <div class="ms-3">
+                            <div class="fw-bold">{{ __('Appointment length') }}</div>
+                            <div
+                                class="text-muted">{{ \Carbon\Carbon::parse( $appointment->start_time )->diffInHours( $appointment->end_time ) }} {{ __('Hour(s)') }}</div>
+                        </div>
                     </div>
-
-                    <div class="col-sm-6">
-                        <label for="end_time" class="form-label">{{ __('End time') }}</label>
-                        <input type="text" class="form-control" id="end_time" placeholder=""
-                               value="{{ $appointment->end_time }}" readonly>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="description" class="form-label">{{ __('Description') }}</label>
-                        <textarea class="form-control" readonly rows="5">{{ $appointment->description }}</textarea>
+                    <div class="d-flex align-items-center mt-lg-5 mb-4">
+                        <div class="ms-3">
+                            <div class="fw-bold">{{ __('Require covid certificate?') }}</div>
+                            <div
+                                class="text-muted">@if ($appointment->certificate = 1) {{ __('Yes') }} @else {{ __('No') }} @endif</div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="form-check mt-2">
-                    <input type="checkbox" class="form-check-input" id="certificate_needed"
-                           @if ($appointment->certificate_needed === 1) checked @endif>
-                    <label class="form-check-label" for="certificate_needed">{{ __('Covid certificate') }}</label>
+                <div class="col-lg-9">
+                    <article>
+                        <header class="mb-4">
+                            <h1 class="fw-bolder mb-1">{{ $appointment->name }}</h1>
+                            <div
+                                class="text-muted fst-italic mb-2">{{ \Carbon\Carbon::parse($appointment->start_time)->format('F jS, H:m') }}</div>
+                        </header>
+                        <figure class="mb-4">
+                            <div id="map" class="img-fluid" style="height: 400px; width: 900px"></div>
+                        </figure>
+                        <section class="mb-5">
+                            <p class="fs-5 mb-4"></p>
+                            <h2 class="fw-bolder mb-4 mt-5">{{ __('Description') }}</h2>
+                            <p class="fs-5 mb-4">{{ $appointment->description }}</p>
+                        </section>
+                    </article>
+                    <form method="POST" action="{{ route('book') }}">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $appointment->id }}">
+                        <button
+                            class="btn btn-primary"
+                            @if ($alreadyBooked->isNotEmpty()) disabled @endif>
+                            {{ __('Book appointment') }}
+                        </button>
+                    </form>
                 </div>
-
-                <hr class="my-4">
-
-                <form method="POST" action="{{ route('book') }}">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $appointment->id }}">
-                    <button class="w-100 btn btn-primary btn-lg" type="submit"
-                            @if($alreadyBooked->isNotEmpty()) disabled @endif>
-                        {{ __('Continue to checkout') }}
-                    </button>
-                </form>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
 
 @section('scripts')
@@ -95,6 +84,8 @@
         }
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb8QAZaP5cQhU8jp6LRbj9tx80L95ezGM&callback=initMap&libraries=&v=weekly" async></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb8QAZaP5cQhU8jp6LRbj9tx80L95ezGM&callback=initMap&libraries=&v=weekly"
+        async></script>
 @endsection
 

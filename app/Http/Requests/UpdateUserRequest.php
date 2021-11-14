@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'surname' => ['required', 'string', 'max:255'],
             'gender' => ['required'],
             'age' => ['sometimes'],
-            'description' => ['sometimes', 'string']
+            'description' => ['sometimes']
         ];
     }
 }

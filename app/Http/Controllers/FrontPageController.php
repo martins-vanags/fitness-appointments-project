@@ -8,7 +8,7 @@ class FrontPageController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::paginate(3);
+        $appointments = Appointment::paginate(4);
 
         return view('appointments', ['appointments' => $appointments]);
     }

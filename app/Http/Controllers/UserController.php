@@ -33,9 +33,19 @@ class UserController extends Controller
      */
     public function booked()
     {
-        $booked = User::findOrFail(Auth::id())->appointments;
+        $booked = User::findOrFail(Auth::id())->appointments()->paginate(1);
 
-        return view('user.booked-appointments', compact('booked'));
+        $latLng = [];
+        
+        foreach ($booked as $value) {
+            $latLng = [
+                'lat' => floatval($value->latitude),
+                'lng' => floatval($value->longitude)
+            ];
+        }
+
+
+        return view('user.booked-appointments', compact('booked', 'latLng'));
     }
 
     /**

@@ -99,9 +99,8 @@
                                 </a>
                                 <form id="booked-appointments"
                                       action="{{ route('user.booked.appointments') }}"
-                                      method="POST"
+                                      method="GET"
                                       class="d-none">
-                                    @csrf
                                 </form>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"
