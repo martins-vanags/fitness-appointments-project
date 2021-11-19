@@ -18,7 +18,7 @@
                                     <h2 class="card-title h4">{{ $appointment->name }}</h2>
                                     <p class="card-text">{{ __('Price ') }} {{ $appointment->price }} €</p>
                                     <a class="btn btn-primary"
-                                       href="{{ route('show', ['id' => $appointment->id]) }}">{{ __('Show more') }}</a>
+                                       href="{{ route('appointment.show', ['appointment' => $appointment]) }}">{{ __('Show more') }}</a>
                                 </div>
                             </div>
                         @empty
@@ -26,8 +26,6 @@
                                 <div class="card-body">
                                     <div class="small text-muted">{{ now() }}</div>
                                     <h2 class="card-title h4">{{ __('No appointments found') }}</h2>
-                                    <p class="card-text">{{ __('Appointment information') }}</p>
-                                    <a class="btn btn-primary" href="#!">{{ __('Show more') }}</a>
                                 </div>
                             </div>
                         @endforelse

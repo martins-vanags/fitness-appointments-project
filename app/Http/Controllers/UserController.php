@@ -3,60 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Appointment;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Require authorization
-     */
+
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->authorizeResource(User::class, 'user');
     }
 
     /**
-     * Returns user created appointments
+     * Returns user profile information
      */
-    public function show()
+    public function show(User $user): Factory|View|Application
     {
-        $appointments = Appointment::where('user_id', '=', Auth::id())->get();
-
-        return view('user.appointments', compact('appointments'));
+        return view('user.profile', [
+            'user' => $user
+        ]);
     }
 
     /**
-     * Returns user booked appointments
+     * @param User $user
+     * @return Factory|View|Application
      */
-    public function booked()
+    public function edit(User $user): Factory|View|Application
     {
-        $booked = User::findOrFail(Auth::id())->appointments()->paginate(1);
-
-        $latLng = [];
-        
-        foreach ($booked as $value) {
-            $latLng = [
-                'lat' => floatval($value->latitude),
-                'lng' => floatval($value->longitude)
-            ];
-        }
-
-
-        return view('user.booked-appointments', compact('booked', 'latLng'));
-    }
-
-    /**
-     * @param $id
-     * Returns user information
-     */
-    public function edit($id)
-    {
-        $user = User::findOrFail($id);
-
-        return view('user.profile', compact('user'));
+        return view('user.edit', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -69,12 +49,7 @@ class UserController extends Controller
         $validated = $request->validated();
 
         $user = Auth::user();
-        $user->name = $validated['name'];
-        $user->surname = $validated['surname'];
-        $user->gender = $validated['gender'];
-        $user->age = $validated['age'];
-        $user->description = $validated['description'];
-        $user->save();
+        $user->save($validated);
 
         return back();
     }

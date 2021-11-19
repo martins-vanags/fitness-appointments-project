@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @forelse ($booked as $appointment)
+    @forelse ($appointments as $appointment)
         <section class="py-5">
             <div class="container px-5 my-5">
                 <div class="row gx-5">
@@ -41,7 +41,7 @@
                         <nav aria-label="Pagination">
                             <hr class="my-0"/>
                             <ul class="pagination justify-content-center my-4">
-                                {{ $booked->links() }}
+                                {{ $appointments->links() }}
                             </ul>
                         </nav>
                     </div>
@@ -56,10 +56,7 @@
                         <div class="text-center my-5">
                             <h1 class="fw-bolder mb-3">{{ __('You have no booked appointments') }}</h1>
                             <p class="lead fw-normal text-muted mb-4">{{ __('Book an appointment to view it here') }}</p>
-                            <a class="btn btn-primary btn-lg"
-                               href="{{ route('all.appointments') }}">
-                                {{ __('Book appointment') }}
-                            </a>
+                            <a class="btn btn-primary btn-lg" href="{{ route('appointments') }}">{{ __('Book appointment') }}</a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +68,7 @@
 @section('scripts')
     <script>
         function initMap() {
-            const marker = @json($latLng)
+            const marker = @json($coordinates)
 
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 14,

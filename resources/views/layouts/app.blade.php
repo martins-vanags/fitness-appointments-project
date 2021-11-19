@@ -23,7 +23,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('all.appointments') }}">
+            <a class="navbar-brand" href="{{ route('appointments') }}">
                 {{ config('app.name', 'Laravel') }}
             </a>
             <button class="navbar-toggler"
@@ -68,36 +68,13 @@
                                 <a class="dropdown-item" href="{{ route('user.profile', ['user' => Auth::id()]) }}">{{ __('My profile') }}</a>
 
                                 @if(Auth::user()->isTeacher())
-                                    <a class="dropdown-item"
-                                       href="{{ route('user.appointments') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('student-appointments-form').submit();">
-                                        {{ __('My appointments') }}
-                                    </a>
-                                    <form id="student-appointments-form"
-                                          action="{{ route('user.appointments') }}"
-                                          method="GET"
-                                          class="d-none">
-                                    </form>
+                                    <a class="dropdown-item" href="{{ route('appointments.my') }}">{{ __('My appointments') }}</a>
                                 @endif
 
-                                <a class="dropdown-item"
-                                   href="{{ route('user.booked.appointments') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('booked-appointments').submit();">
-                                    {{ __('Booked appointments') }}
-                                </a>
-                                <form id="booked-appointments"
-                                      action="{{ route('user.booked.appointments') }}"
-                                      method="GET"
-                                      class="d-none">
-                                </form>
+                                <a class="dropdown-item" href="{{ route('appointments.booked') }}">{{ __('Booked appointments') }}</a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>

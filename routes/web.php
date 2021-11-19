@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\FrontPageController;
 use App\Http\Controllers\UserController;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,23 +17,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [FrontPageController::class, 'index'])->name('all.appointments');
+Route::get('/', function () {
+    return view('appointments', [
+        'appointments' => Appointment::paginate(4)
+    ]);
+})->name('appointments');
 
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
-    Route::get('/{id}/profile', [UserController::class, 'edit'])->name('user.profile');
-    Route::post('/update-profile', [UserController::class, 'update'])->name('update.profile');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('user.profile');
 
-    Route::get('/booked-appointments', [UserController::class, 'booked'])->name('user.booked.appointments');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('/users/{user}/update', [UserController::class, 'update'])->name('user.update');
 
-    Route::get('/{id}/appointment', [AppointmentController::class, 'show'])->name('show');
+    Route::get('/appointments/booked', [AppointmentController::class, 'booked'])->name('appointments.booked');
 
-    Route::post('/book', [AppointmentController::class, 'book'])->name('book');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show')->where('appointment', '^[0-9]+$');
+
+    Route::post('/appointments/{appointment}/book', [AppointmentController::class, 'book'])->name('appointment.book')->middleware('can:book,appointment');
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/my-appointments', [UserController::class, 'show'])->name('user.appointments');
+    Route::get('/appointments/my', [AppointmentController::class, 'userAppointments'])->name('appointments.my');
 
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointment.create');
     Route::post('/appointments/store', [AppointmentController::class, 'store'])->name('appointment.store');
