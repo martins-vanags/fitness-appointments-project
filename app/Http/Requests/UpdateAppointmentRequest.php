@@ -33,7 +33,6 @@ class UpdateAppointmentRequest extends FormRequest
             'price' => ['required'],
             'certificate_needed' => ['sometimes'],
             'description' => ['required'],
-            'id' => ['required']
         ];
     }
 }

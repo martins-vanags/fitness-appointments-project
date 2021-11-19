@@ -35,13 +35,13 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/my-appointments', [UserController::class, 'show'])->name('user.appointments');
 
-    Route::get('/{id}/edit', [AppointmentController::class, 'edit'])->name('edit');
-    Route::post('/update', [AppointmentController::class, 'update'])->name('update');
+    Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointment.create');
+    Route::post('/appointments/store', [AppointmentController::class, 'store'])->name('appointment.store');
 
-    Route::get('/create', [AppointmentController::class, 'create'])->name('new.appointment');
-    Route::post('/store', [AppointmentController::class, 'store'])->name('store');
+    Route::get('/appointments/{appointment}/edit', [AppointmentController::class, 'edit'])->name('appointment.edit');
+    Route::post('/appointments/{appointment}/update', [AppointmentController::class, 'update'])->name('appointment.update');
 
-    Route::delete('/delete', [AppointmentController::class, 'destroy'])->name('destroy');
+    Route::delete('/appointments/{appointment}/delete', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
 });
 
 

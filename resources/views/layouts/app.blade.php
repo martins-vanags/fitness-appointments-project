@@ -65,17 +65,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item"
-                                   href="{{ route('user.profile', ['id' => Auth::user()->id]) }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('my-profile-form').submit();">
-                                    {{ __('My profile') }}
-                                </a>
-                                <form id="my-profile-form"
-                                      action="{{ route('user.profile', ['id' => Auth::user()->id]) }}"
-                                      method="GET"
-                                      class="d-none">
-                                </form>
+                                <a class="dropdown-item" href="{{ route('user.profile', ['user' => Auth::id()]) }}">{{ __('My profile') }}</a>
 
                                 @if(Auth::user()->isTeacher())
                                     <a class="dropdown-item"
