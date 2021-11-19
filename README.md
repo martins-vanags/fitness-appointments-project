@@ -4,8 +4,7 @@ Simplify the way to get in touch with fitness teachers.
 
 ## TODO:
 
-* Add payment method
-* Show errors with invalid-feedback class <- Figure this out
-* Google maps !!!
-* Cleanup everything
-* Write tests
+* Saprast kāpēc nevar izdzēst appointment
+* Pielikt alertus par to kad kas ir noticis veiksmīgi / neveiksmīgi
+* Salabot dizainu visur
+* Piesaistīt stripe laravelam un izdomāt kā pie velna darbotos mana loģika tam visam

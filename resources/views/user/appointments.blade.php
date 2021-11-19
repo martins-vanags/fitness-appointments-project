@@ -22,10 +22,14 @@
 
                                     <a class="btn btn-secondary" href="{{ route('appointment.edit', ['appointment' => $appointment->id]) }}">{{ __('Edit') }}</a>
 
-                                    <form method="POST" action="{{ route('appointment.destroy', ['appointment' => $appointment->id]) }}">
+                                    <a class="btn btn-danger" href="{{ route('appointment.destroy', ['appointment' => $appointment]) }}"
+                                       onclick="event.preventDefault();document.getElementById('delete').submit();">
+                                        {{ __('Delete') }}
+                                    </a>
+
+                                    <form method="POST" id="delete" action="{{ route('appointment.destroy', ['appointment' => $appointment]) }}">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                 </div>
                             </div>
