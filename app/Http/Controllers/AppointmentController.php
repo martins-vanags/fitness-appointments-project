@@ -84,10 +84,10 @@ class AppointmentController extends Controller
 
     public function destroy(Appointment $appointment): RedirectResponse
     {
-        $appointment->users()->delete();
+        $appointment->users()->detach();
         $appointment->delete();
 
-        return redirect()->route('user.appointments');
+        return redirect()->route('appointments.my');
     }
 
     public function book(Appointment $appointment): RedirectResponse
@@ -99,7 +99,7 @@ class AppointmentController extends Controller
 
     public function booked(): Factory|View|Application
     {
-        $appointments = User::findOrFail(Auth::id())->appointments()->paginate(1);
+        $appointments = User::findOrFail(Auth::id())->appointments()->orderBy('start_time', 'desc')->paginate(1);
 
         $coordinates = [];
 

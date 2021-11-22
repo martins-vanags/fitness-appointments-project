@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('appointments', [
-        'appointments' => Appointment::paginate(4)
+        'appointments' => Appointment::orderBy('start_time', 'desc')->paginate(4)
     ]);
 })->name('appointments');
 
