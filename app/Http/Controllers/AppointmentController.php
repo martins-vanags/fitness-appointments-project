@@ -46,8 +46,14 @@ class AppointmentController extends Controller
 
     public function edit(Appointment $appointment): Factory|View|Application
     {
+        $coordinates = [
+            'lat' => (float)$appointment->latitude,
+            'lng' => (float)$appointment->longitude,
+        ];
+
         return view('appointments.edit', [
             'appointment' => $appointment,
+            'coordinates' => $coordinates
         ]);
     }
 
@@ -73,7 +79,7 @@ class AppointmentController extends Controller
 
         Auth::user()->myAppointments()->create($validated);
 
-        return redirect()->route('user.appointments');
+        return redirect()->route('appointments.my');
     }
 
     public function destroy(Appointment $appointment): RedirectResponse
@@ -86,7 +92,6 @@ class AppointmentController extends Controller
 
     public function book(Appointment $appointment): RedirectResponse
     {
-        // TODO:
         $appointment->users()->attach(Auth::id());
 
         return back();
@@ -117,7 +122,7 @@ class AppointmentController extends Controller
 
 
         return view('user.appointments', [
-           'appointments' => $appointments
+            'appointments' => $appointments
         ]);
     }
 }

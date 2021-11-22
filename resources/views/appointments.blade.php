@@ -17,8 +17,12 @@
                                         class="small text-muted">{{ \Carbon\Carbon::parse($appointment->start_time)->format('F jS, H:m') }}</div>
                                     <h2 class="card-title h4">{{ $appointment->name }}</h2>
                                     <p class="card-text">{{ __('Price ') }} {{ $appointment->price }} €</p>
-                                    <a class="btn btn-primary"
-                                       href="{{ route('appointment.show', ['appointment' => $appointment]) }}">{{ __('Show more') }}</a>
+
+                                    @if ($appointment->start_time <= now())
+                                        <a class="btn btn-primary" disabled>{{ __('Appointment already happened') }}</a>
+                                    @else
+                                    <a class="btn btn-primary" href="{{ route('appointment.show', ['appointment' => $appointment]) }}">{{ __('Show more') }}</a>
+                                    @endif
                                 </div>
                             </div>
                         @empty
@@ -31,7 +35,6 @@
                         @endforelse
                     </div>
                 </div>
-                <!-- Pagination-->
                 <nav aria-label="Pagination">
                     <hr class="my-0"/>
                     <ul class="pagination justify-content-center my-4">

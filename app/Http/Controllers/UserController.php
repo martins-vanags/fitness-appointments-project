@@ -18,9 +18,6 @@ class UserController extends Controller
         $this->authorizeResource(User::class, 'user');
     }
 
-    /**
-     * Returns user profile information
-     */
     public function show(User $user): Factory|View|Application
     {
         return view('user.profile', [
@@ -28,10 +25,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * @param User $user
-     * @return Factory|View|Application
-     */
     public function edit(User $user): Factory|View|Application
     {
         return view('user.edit', [
@@ -39,11 +32,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * @param UpdateUserRequest $request
-     * @return RedirectResponse
-     * Updates user information
-     */
     public function update(UpdateUserRequest $request): RedirectResponse
     {
         $validated = $request->validated();

@@ -18,9 +18,9 @@
 
                                     <p class="card-text">{{ __('Price ') }} {{ $appointment->price }} €</p>
 
-                                    <a class="btn btn-primary" href="{{ route('appointment.show', ['appointment' => $appointment->id]) }}">{{ __('Show more') }}</a>
+                                    <a class="btn btn-primary" href="{{ route('appointment.show', ['appointment' => $appointment]) }}">{{ __('Show more') }}</a>
 
-                                    <a class="btn btn-secondary" href="{{ route('appointment.edit', ['appointment' => $appointment->id]) }}">{{ __('Edit') }}</a>
+                                    <a class="btn btn-secondary" href="{{ route('appointment.edit', ['appointment' => $appointment]) }}">{{ __('Edit') }}</a>
 
                                     <a class="btn btn-danger" href="{{ route('appointment.destroy', ['appointment' => $appointment]) }}"
                                        onclick="event.preventDefault();document.getElementById('delete').submit();">

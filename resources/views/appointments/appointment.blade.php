@@ -9,9 +9,7 @@
                         <div class="ms-3">
                             <div class="fw-bold">{{ __('Appointment teacher') }}</div>
                             <div class="text-muted">
-                                <a href="{{ route('user.profile', ['user' => $appointment->teacher->id]) }}">
-                                    {{ $appointment->teacher->name }} {{ $appointment->teacher->surname }}
-                                </a>
+                                <a href="{{ route('user.profile', ['user' => $appointment->teacher->id]) }}">{{ $appointment->teacher->name }} {{ $appointment->teacher->surname }}</a>
                             </div>
                         </div>
                     </div>
@@ -24,15 +22,13 @@
                     <div class="d-flex align-items-center mt-lg-5 mb-4">
                         <div class="ms-3">
                             <div class="fw-bold">{{ __('Appointment length') }}</div>
-                            <div
-                                class="text-muted">{{ \Carbon\Carbon::parse( $appointment->start_time )->diffInHours( $appointment->end_time ) }} {{ __('Hour(s)') }}</div>
+                            <div class="text-muted">{{ \Carbon\Carbon::parse( $appointment->start_time )->diffInHours( $appointment->end_time ) }} {{ __('Hour(s)') }}</div>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mt-lg-5 mb-4">
                         <div class="ms-3">
                             <div class="fw-bold">{{ __('Require covid certificate?') }}</div>
-                            <div
-                                class="text-muted">@if ($appointment->certificate = 1) {{ __('Yes') }} @else {{ __('No') }} @endif</div>
+                            <div class="text-muted">@if ($appointment->certificate = 1) {{ __('Yes') }} @else {{ __('No') }} @endif</div>
                         </div>
                     </div>
                 </div>
@@ -40,8 +36,7 @@
                     <article>
                         <header class="mb-4">
                             <h1 class="fw-bolder mb-1">{{ $appointment->name }}</h1>
-                            <div
-                                class="text-muted fst-italic mb-2">{{ \Carbon\Carbon::parse($appointment->start_time)->format('F jS, H:m') }}</div>
+                            <div class="text-muted fst-italic mb-2">{{ \Carbon\Carbon::parse($appointment->start_time)->format('F jS, H:m') }}</div>
                         </header>
                         <figure class="mb-4">
                             <div id="map" class="img-fluid" style="height: 400px; width: 900px"></div>
@@ -52,14 +47,9 @@
                             <p class="fs-5 mb-4">{{ $appointment->description }}</p>
                         </section>
                     </article>
-                    <form method="POST" action="{{ route('appointment.show', ['appointment' => $appointment->id]) }}">
+                    <form method="POST" action="{{ route('appointment.book', ['appointment' => $appointment]) }}">
                         @csrf
-                        <input type="hidden" name="id" value="{{ $appointment->id }}">
-                        <button
-                            class="btn btn-primary"
-                            @if ($alreadyBooked) disabled @endif>
-                            {{ __('Book appointment') }}
-                        </button>
+                        <button class="btn btn-primary" @if ($alreadyBooked) disabled @endif>{{ __('Book appointment') }}</button>
                     </form>
                 </div>
             </div>
