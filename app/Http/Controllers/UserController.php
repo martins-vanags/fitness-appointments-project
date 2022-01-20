@@ -32,12 +32,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UpdateUserRequest $request): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         $validated = $request->validated();
 
-        $user = Auth::user();
-        $user->save($validated);
+        $user->update($validated);
 
         return back();
     }

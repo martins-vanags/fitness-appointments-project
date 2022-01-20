@@ -13,8 +13,7 @@
                         @forelse ($appointments as $appointment)
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <div
-                                        class="small text-muted">{{ \Carbon\Carbon::parse($appointment->start_time)->format('F jS, H:m') }}</div>
+                                    <div class="small text-muted">{{ \Carbon\Carbon::parse($appointment->start_time)->format('F jS, H:m') }}</div>
                                     <h2 class="card-title h4">{{ $appointment->name }}</h2>
                                     <p class="card-text">{{ __('Price ') }} {{ $appointment->price }} €</p>
 
@@ -28,14 +27,13 @@
                         @empty
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <div class="small text-muted">{{ now() }}</div>
-                                    <h2 class="card-title h4">{{ __('No appointments found') }}</h2>
+                                    <h4 class="card-title text-center">{{ __('No appointments found') }}</h4>
                                 </div>
                             </div>
                         @endforelse
                     </div>
                 </div>
-                <nav aria-label="Pagination">
+                <nav>
                     <hr class="my-0"/>
                     <ul class="pagination justify-content-center my-4">
                         {{ $appointments->links() }}
